@@ -1,6 +1,6 @@
-import { getBeerList } from '../../api';
-import { Beer } from '../../types';
-import handle from '../../utils/error';
+import { getBeerList } from "../../api";
+import { Beer } from "../../types";
+import handle from "../../utils/error";
 
 const fetchData = (setData: (data: Array<Beer>) => void) => {
   (async () => {

@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material/styles';
-import { green, blue } from '@mui/material/colors';
+import { createTheme } from "@mui/material/styles";
+import { green, blue } from "@mui/material/colors";
 
 const theme = createTheme({
   palette: {
@@ -14,7 +14,7 @@ const theme = createTheme({
     MuiLink: {
       styleOverrides: {
         root: {
-          textDecoration: 'none',
+          textDecoration: "none",
         },
       },
     },

@@ -1,4 +1,4 @@
-import { TYPE } from './';
+import { TYPE } from "./";
 
 interface Beer {
   id: string;

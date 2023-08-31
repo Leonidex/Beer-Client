@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const Offline = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -7,12 +7,12 @@ const Offline = () => {
   const setOffline = () => setIsOnline(false);
 
   useEffect(() => {
-    window.addEventListener('online', setOnline);
-    window.addEventListener('offline', setOffline);
+    window.addEventListener("online", setOnline);
+    window.addEventListener("offline", setOffline);
 
     return () => {
-      window.addEventListener('online', setOnline);
-      window.addEventListener('offline', setOffline);
+      window.addEventListener("online", setOnline);
+      window.addEventListener("offline", setOffline);
     };
   }, []);
 

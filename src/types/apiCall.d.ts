@@ -1,4 +1,4 @@
-import { TYPE, SORT } from './';
+import { TYPE, SORT } from "./";
 
 interface ApiParams {
   per_page?: number; // Int between 1 and 200. Default is 50.

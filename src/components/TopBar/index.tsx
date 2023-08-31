@@ -1,5 +1,5 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 interface Props {
   drawerWidth: number;
@@ -21,7 +21,7 @@ const TopBar = (props: Props) => {
           aria-label="open drawer"
           edge="start"
           onClick={props.handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{ mr: 2, display: { sm: "none" } }}
         >
           <MenuIcon />
         </IconButton>
@@ -30,7 +30,7 @@ const TopBar = (props: Props) => {
         </Typography>
       </Toolbar>
     </AppBar>
-    );
-  }
+  );
+};
 
 export default TopBar;
