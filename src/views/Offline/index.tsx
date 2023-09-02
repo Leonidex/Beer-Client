@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { Tooltip } from "@mui/material";
 
 const Offline = () => {
   const [isOnline, setIsOnline] = useState(true);
-
   const setOnline = () => setIsOnline(true);
   const setOffline = () => setIsOnline(false);
 
@@ -17,16 +17,11 @@ const Offline = () => {
   }, []);
 
   return isOnline ? null : (
-    <article>
-      <section>
-        <header>
-          <h1>You are offline</h1>
-        </header>
-        <main>
-          <span>App needs internet to start working</span>
-        </main>
-      </section>
-    </article>
+    <header>
+      <Tooltip title={"Please check your internet connection"}>
+        <h5 style={{ userSelect: "none" }}>You are offline</h5>
+      </Tooltip>
+    </header>
   );
 };
 

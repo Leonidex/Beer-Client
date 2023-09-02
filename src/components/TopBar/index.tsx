@@ -1,5 +1,6 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import Offline from "../../views/Offline";
 
 interface Props {
   drawerWidth: number;
@@ -25,9 +26,10 @@ const TopBar = (props: Props) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
+        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           V
         </Typography>
+        <Offline />
       </Toolbar>
     </AppBar>
   );
