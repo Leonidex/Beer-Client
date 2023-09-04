@@ -9,6 +9,7 @@ import {
   ListItemText,
   Toolbar,
   Link,
+  Card,
 } from "@mui/material";
 import SportsBar from "@mui/icons-material/SportsBar";
 import HomeIcon from "@mui/icons-material/Home";
@@ -58,7 +59,7 @@ export default function ResponsiveDrawer(props: Props) {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Card sx={{ display: "flex" }}>
       <TopBar
         drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
@@ -104,12 +105,12 @@ export default function ResponsiveDrawer(props: Props) {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)`, background: "#f7f7f7" },
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Toolbar />
         {props.children}
       </Box>
-    </Box>
+    </Card>
   );
 }

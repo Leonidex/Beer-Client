@@ -1,3 +1,10 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: black;
+}
+
 .list {
   list-style: none;
 }
@@ -5,7 +12,6 @@
 .listContainer {
   padding: 20px;
   margin-bottom: 20px;
-  background: #fff;
 }
 
 .listHeader {
