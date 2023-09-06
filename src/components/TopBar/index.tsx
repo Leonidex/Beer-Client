@@ -1,7 +1,5 @@
 import {
   Box,
-  Divider,
-  Drawer,
   List,
   ListItem,
   ListItemButton,
@@ -9,37 +7,36 @@ import {
   ListItemText,
   Toolbar,
   Link,
-  Card,
   Container,
   Menu,
-  MenuItem,
   Typography,
   IconButton,
 } from "@mui/material";
-import SportsBar from "@mui/icons-material/SportsBar";
 import HomeIcon from "@mui/icons-material/Home";
 import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { AppBar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SportsBarIcon from "@mui/icons-material/SportsBar";
-
-const drawerWidth = 240;
+import ListAltIcon from "@mui/icons-material/ListAlt";
 
 interface Page {
   title: string;
   url: string;
+  icon: React.ReactNode;
 }
 
 export default function ResponsiveTopBar() {
-  const [pages, setPages] = useState<Page[]>([
+  const [pages] = useState<Page[]>([
     {
       title: "Home",
       url: "",
+      icon: <HomeIcon />,
     },
     {
       title: "Beer List",
       url: "/beer",
+      icon: <ListAltIcon />,
     },
   ]);
 
@@ -50,37 +47,9 @@ export default function ResponsiveTopBar() {
   };
 
   const handleCloseNavMenu = (page: Page) => {
-    console.log("pageNumber:", page);
+    console.log("page:", page);
     setAnchorElNav(null);
   };
-
-  const drawer = (
-    <>
-      <Divider />
-      <List>
-        <Link component={RouterLink} to={`/`}>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link component={RouterLink} to={`/beer`}>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SportsBar />
-              </ListItemIcon>
-              <ListItemText primary="Beer List" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
-    </>
-  );
 
   return (
     <AppBar position="static">
@@ -143,60 +112,39 @@ export default function ResponsiveTopBar() {
               }}
             >
               <List>
-                <Link component={RouterLink} to={`/`}>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <HomeIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Home" />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-                <Link component={RouterLink} to={`/beer`}>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <SportsBar />
-                      </ListItemIcon>
-                      <ListItemText primary="Beer List" />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
+                {pages.map((page, pageIndex) => (
+                  <Link
+                    component={RouterLink}
+                    to={page.url}
+                    key={`topbar-menu-link[${pageIndex}]`}
+                    onClick={() => handleCloseNavMenu(page)}
+                  >
+                    <ListItem disablePadding>
+                      <ListItemButton>
+                        <ListItemIcon>{page.icon}</ListItemIcon>
+                        <ListItemText primary={page.title} />
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
+                ))}
               </List>
             </Menu>
           </Box>
-          <Box
-            component="main"
-            sx={{
-              flexGrow: 1,
-              p: 3,
-              width: { sm: `calc(100% - ${drawerWidth}px)` },
-            }}
-          >
-            <Toolbar />
-            {/*<TopBar*/}
-            {/*  sx={{ mt: "45px" }}*/}
-            {/*  id="menu-appbar"*/}
-            {/*  anchorEl={anchorElUser}*/}
-            {/*  anchorOrigin={{*/}
-            {/*    vertical: "top",*/}
-            {/*    horizontal: "right",*/}
-            {/*  }}*/}
-            {/*  keepMounted*/}
-            {/*  transformOrigin={{*/}
-            {/*    vertical: "top",*/}
-            {/*    horizontal: "right",*/}
-            {/*  }}*/}
-            {/*  open={Boolean(anchorElUser)}*/}
-            {/*  onClose={handleCloseUserMenu}*/}
-            {/*>*/}
-            {/*  {settings.map((setting) => (*/}
-            {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
-            {/*      <Typography textAlign="center">{setting}</Typography>*/}
-            {/*    </MenuItem>*/}
-            {/*  ))}*/}
-            {/*</TopBar>*/}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, pageIndex) => (
+              <Link
+                component={RouterLink}
+                to={page.url}
+                key={`topbar-menu-link[${pageIndex}]`}
+              >
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>{page.icon}</ListItemIcon>
+                    <ListItemText primary={page.title} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
           </Box>
         </Toolbar>
       </Container>
