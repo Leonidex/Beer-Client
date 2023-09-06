@@ -31,12 +31,12 @@ export default function ResponsiveTopBar() {
     {
       title: "Home",
       url: "",
-      icon: <HomeIcon />,
+      icon: <HomeIcon sx={{ width: "100%" }} />,
     },
     {
       title: "Beer List",
       url: "/beer",
-      icon: <ListAltIcon />,
+      icon: <ListAltIcon sx={{ width: "100%" }} />,
     },
   ]);
 
@@ -130,7 +130,8 @@ export default function ResponsiveTopBar() {
               </List>
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page, pageIndex) => (
               <Link
                 component={RouterLink}
@@ -138,7 +139,12 @@ export default function ResponsiveTopBar() {
                 key={`topbar-menu-link[${pageIndex}]`}
               >
                 <ListItem disablePadding>
-                  <ListItemButton>
+                  <ListItemButton
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <ListItemIcon>{page.icon}</ListItemIcon>
                     <ListItemText primary={page.title} />
                   </ListItemButton>
