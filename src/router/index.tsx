@@ -4,7 +4,7 @@ import NotFound from "../views/404";
 import BeerList from "../views/BeerList";
 import Beer from "../views/Beer";
 import Footer from "../components/Footer";
-import TopBar from "../components/Menu";
+import TopBar from "../components/TopBar";
 
 const Router = () => (
   <BrowserRouter>
