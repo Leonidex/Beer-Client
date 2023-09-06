@@ -18,7 +18,7 @@ const Home = () => {
     <article>
       <section>
         <main>
-          <Paper>
+          <Paper square>
             <div className={styles.listContainer}>
               <div className={styles.listHeader}>
                 <TextField label="Filter..." variant="outlined" />
@@ -37,7 +37,7 @@ const Home = () => {
             </div>
           </Paper>
 
-          <Paper>
+          <Paper square>
             <div className={styles.listContainer}>
               <div className={styles.listHeader}>
                 <h3>Saved items</h3>
