@@ -29,7 +29,10 @@ const Home = () => {
           }}
         >
           <Paper square sx={{ flexGrow: 1 }}>
-            <Box className={styles.listContainer} sx={{ flexGrow: 1 }}>
+            <Box
+              className={styles.listContainer}
+              sx={{ flex: "0 0 60%", overflowX: "hidden", overflowY: "auto" }}
+            >
               <Box className={styles.listHeader}>
                 <Typography
                   variant={"h5"}
@@ -52,7 +55,10 @@ const Home = () => {
           </Paper>
 
           <Divider />
-          <Paper square sx={{ flexGrow: 1 }}>
+          <Paper
+            square
+            sx={{ flex: "0 0 40%", overflowX: "hidden", overflowY: "auto" }}
+          >
             <div className={styles.listContainer}>
               <div className={styles.listHeader}>
                 <h3>Saved items</h3>
@@ -60,6 +66,7 @@ const Home = () => {
                   variant="contained"
                   onClick={removeAllFavorites}
                   size="small"
+                  disabled={!favorites?.length}
                 >
                   Remove all items
                 </Button>
