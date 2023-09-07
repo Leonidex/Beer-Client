@@ -1,20 +1,26 @@
 import { createTheme } from "@mui/material/styles";
 
+const primaryMain = "#EEF4ED";
+const secondaryMain = "#C1BFB8";
+const backgroundDefault = "#272829";
+const backgroundPaper = "#131415";
+
 const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#C1BFB8",
+      main: primaryMain,
     },
     secondary: {
-      main: "#EEF4ED",
+      main: secondaryMain,
     },
     text: {
-      primary: "#EEF4ED",
+      primary: primaryMain,
+      secondary: secondaryMain,
     },
     background: {
-      default: "#272829",
-      paper: "#131415",
+      default: backgroundDefault,
+      paper: backgroundPaper,
     },
   },
   components: {

@@ -32,12 +32,16 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-export default function ItemList(props: { items: Beer[] }) {
+interface Props {
+  items?: Beer[];
+}
+
+export default function ItemList(props: Props) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
-    data: props.items,
+    data: props.items as Beer[],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter,

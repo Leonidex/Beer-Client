@@ -25,3 +25,7 @@ export const toggleFavoriteItemAtom = atom(null, (get, set, item: Beer) => {
 
   set(favoritesAtom, newFavoritesArray);
 });
+
+export const removeAllFavoritesAtom = atom(null, (get, set) => {
+  set(favoritesAtom, []);
+});
