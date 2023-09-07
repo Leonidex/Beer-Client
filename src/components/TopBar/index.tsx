@@ -46,13 +46,17 @@ export default function ResponsiveTopBar() {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (page: Page) => {
-    console.log("page:", page);
+  const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        borderBottom: (theme) => `solid gray 1px`,
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link
@@ -117,7 +121,7 @@ export default function ResponsiveTopBar() {
                     component={RouterLink}
                     to={page.url}
                     key={`topbar-menu-link[${pageIndex}]`}
-                    onClick={() => handleCloseNavMenu(page)}
+                    onClick={handleCloseNavMenu}
                   >
                     <ListItem disablePadding>
                       <ListItemButton>
