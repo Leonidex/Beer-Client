@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchData } from "./utils";
 import { Beer } from "../../types";
 import { Link as RouterLink } from "react-router-dom";
@@ -20,8 +20,10 @@ const Home = () => {
   const [beerList, setBeerList] = useState<Array<Beer>>([]);
   const favorites = useAtomValue(favoritesAtom);
 
+  const refreshList = useCallback(fetchData.bind(this, setBeerList), []);
+
   // eslint-disable-next-line
-  useEffect(fetchData.bind(this, setBeerList), []);
+  useEffect(refreshList, []);
 
   return (
     <article>
@@ -31,8 +33,8 @@ const Home = () => {
             justifyContent: "space-between",
           }}
         >
-          <Paper square>
-            <Box className={styles.listContainer}>
+          <Paper square sx={{ flexGrow: 1 }}>
+            <Box className={styles.listContainer} sx={{ flexGrow: 1 }}>
               <Box className={styles.listHeader}>
                 <Typography
                   variant={"h5"}
@@ -41,7 +43,9 @@ const Home = () => {
                 >
                   A random list of beer breweries:
                 </Typography>
-                <Button variant="contained">Reload list</Button>
+                <Button variant="contained" onClick={refreshList}>
+                  Reload list
+                </Button>
               </Box>
               <Divider />
               <Grid
