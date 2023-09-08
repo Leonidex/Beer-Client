@@ -1,10 +1,20 @@
 import styles from "./Footer.module.css";
+import { Box, Container, Typography } from "@mui/material";
 
 const Footer = () => {
   return (
-    <footer className={styles.container}>
-      <div className={styles.inner}>&#169; 2023 </div>
-    </footer>
+    <Box
+      className={styles.container}
+      sx={{
+        backgroundColor: (theme) => theme.palette.background.default,
+        color: (theme) => theme.palette.text.primary,
+        borderTop: `solid gray 1px`,
+      }}
+    >
+      <Container>
+        <Typography className={styles.inner}>&#169; 2023 </Typography>
+      </Container>
+    </Box>
   );
 };
 

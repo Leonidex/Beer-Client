@@ -5,9 +5,11 @@ import BeerList from "../views/BeerList";
 import Beer from "../views/Beer";
 import Footer from "../components/Footer";
 import TopBar from "../components/TopBar";
+import Intro from "../views/Intro";
 
 const Router = () => (
   <BrowserRouter>
+    <Intro />
     <TopBar />
     <Routes>
       <Route index element={<Home />} />

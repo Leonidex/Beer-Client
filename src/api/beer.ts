@@ -5,7 +5,9 @@ import { ApiParams } from "../types";
 const getBeer = (id: string) => axios.get(`${API}breweries/${id}`);
 
 const getBeerList = (params?: ApiParams) =>
-  axios.get(`${API}breweries/`, { params });
+  axios.get(`${API}breweries/`, {
+    params,
+  });
 
 /**
  * @param size Int between 1 and 50. Default is 3.
@@ -14,6 +16,11 @@ const getBeerList = (params?: ApiParams) =>
 const getRandomBeerList = (size = 3) =>
   axios.get(`${API}breweries/random`, {
     params: { size },
+    headers: {
+      Cache: "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
   });
 
 const searchBeerList = (query: string, isAutoComplete = false) =>

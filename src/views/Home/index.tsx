@@ -1,29 +1,24 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchData } from "./utils";
 import { Beer } from "../../types";
-import { Link as RouterLink } from "react-router-dom";
-import {
-  Button,
-  Checkbox,
-  Paper,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { Button, Paper, Box, Typography, Divider } from "@mui/material";
 import styles from "./Home.module.css";
-import { favoritesAtom } from "../../store/favoritesStore";
-import { useAtomValue } from "jotai";
+import {
+  favoritesAtom,
+  removeAllFavoritesAtom,
+} from "../../store/favoritesStore";
+import { useAtomValue, useSetAtom } from "jotai";
+import FavoriteItemsGrid from "../../components/Grid";
 
 const Home = () => {
   const [beerList, setBeerList] = useState<Array<Beer>>([]);
   const favorites = useAtomValue(favoritesAtom);
+  const removeAllFavorites = useSetAtom(removeAllFavoritesAtom);
 
-  const refreshList = useCallback(fetchData.bind(this, setBeerList), []);
+  const handleReloadList = useCallback(fetchData.bind(this, setBeerList), []);
 
   // eslint-disable-next-line
-  useEffect(refreshList, []);
+  useEffect(handleReloadList, []);
 
   return (
     <article>
@@ -34,69 +29,62 @@ const Home = () => {
           }}
         >
           <Paper square sx={{ flexGrow: 1 }}>
-            <Box className={styles.listContainer} sx={{ flexGrow: 1 }}>
+            <Box
+              className={styles.listContainer}
+              sx={{ flex: "0 0 60%", overflowX: "hidden", overflowY: "auto" }}
+            >
+              <Box className={styles.listHeader}>
+                <Typography
+                  variant={"h5"}
+                  sx={{
+                    fontWeight: 600,
+                    letterSpacing: 1.5,
+                    userSelect: "none",
+                  }}
+                  color="primary"
+                >
+                  A random list of beer breweries:
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={handleReloadList}
+                  size="small"
+                >
+                  Reload list
+                </Button>
+              </Box>
+              <Divider />
+              <FavoriteItemsGrid items={beerList} />
+            </Box>
+          </Paper>
+
+          <Divider />
+          <Paper
+            square
+            sx={{ flex: "0 0 40%", overflowX: "hidden", overflowY: "auto" }}
+          >
+            <Box className={styles.listContainer}>
               <Box className={styles.listHeader}>
                 <Typography
                   variant={"h5"}
                   sx={{ fontWeight: 600, letterSpacing: 1.5 }}
                   color="primary"
                 >
-                  A random list of beer breweries:
+                  Saved items:
                 </Typography>
-                <Button variant="contained" onClick={refreshList}>
-                  Reload list
+
+                <Button
+                  variant="contained"
+                  onClick={removeAllFavorites}
+                  size="small"
+                  disabled={!favorites?.length}
+                >
+                  Remove all items
                 </Button>
               </Box>
               <Divider />
-              <Grid
-                container
-                columns={{ xs: 4, sm: 4, md: 7, lg: 10 }}
-                width={{ sm: "100%", md: "90%" }}
-                alignSelf={"center"}
-                justifyContent={"center"}
-                gap={[0, 1]}
-              >
-                {beerList.map((beer, index) => (
-                  <Grid
-                    item
-                    key={`home-random-beer-list[${index}]`}
-                    xs={4}
-                    sm={3}
-                  >
-                    <Link component={RouterLink} to={`/beer/${beer.id}`}>
-                      <Button
-                        sx={{ width: "100%", textTransform: "none" }}
-                        variant={"outlined"}
-                      >
-                        {beer.name}
-                      </Button>
-                    </Link>
-                  </Grid>
-                ))}
-              </Grid>
+              <FavoriteItemsGrid items={favorites} />
             </Box>
-          </Paper>
-
-          <Paper square>
-            <div className={styles.listContainer}>
-              <div className={styles.listHeader}>
-                <h3>Saved items</h3>
-                <Button variant="contained" size="small">
-                  Remove all items
-                </Button>
-              </div>
-              <ul className={styles.list}>
-                {favorites.map((beer, index) => (
-                  <li key={index.toString()}>
-                    <Checkbox />
-                    <Link component={RouterLink} to={`/beer/${beer.id}`}>
-                      {beer.name}
-                    </Link>
-                  </li>
-                ))}
-                {!favorites.length && <p>No saved items</p>}
-              </ul>
-            </div>
           </Paper>
         </main>
       </section>
