@@ -1,6 +1,6 @@
 import {
   Column,
-  Table,
+  Table as TanStackTable,
   useReactTable,
   ColumnFiltersState,
   getCoreRowModel,
@@ -18,6 +18,23 @@ import { rankItem } from "@tanstack/match-sorter-utils";
 import { InputHTMLAttributes, useEffect, useMemo, useState } from "react";
 import { columns } from "./columns";
 import { Beer } from "../../types";
+import {
+  Box,
+  Button,
+  Divider,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
+import styles from "../../views/Home/Home.module.css";
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -74,138 +91,155 @@ export default function ItemList(props: Props) {
   }, [table.getState().columnFilters[0]?.id]);
 
   return (
-    <div className="p-2">
-      <div>
-        <DebouncedInput
-          value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search all columns..."
-        />
-      </div>
-      <div className="h-2" />
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+    <Paper square sx={{ flexGrow: 1 }}>
+      <Box
+        className={styles.listContainer}
+        sx={{ flex: "0 0 100%", overflowX: "hidden", overflowY: "auto" }}
+      >
+        <Box className={styles.listHeader}>
+          <Typography
+            variant={"h5"}
+            sx={{ fontWeight: 600, letterSpacing: 1.5, userSelect: "none" }}
+            color="primary"
+          >
+            List of beer breweries:
+          </Typography>
+        </Box>
+        <Divider />
+        <Box>
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            placeholder="Search all columns..."
+          />
+        </Box>
+        <TableContainer sx={{ overflow: "auto" }}>
+          <Table>
+            <TableHead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableCell key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder ? null : (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              overflow: "hidden",
+                              gap: 3,
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                flexGrow: 1,
+                                userSelect: "none",
+                                cursor: header.column.getCanSort()
+                                  ? "pointer"
+                                  : "default",
+                              }}
+                              {...{
+                                onClick:
+                                  header.column.getToggleSortingHandler(),
+                              }}
+                            >
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                              {{
+                                asc: " 🔼",
+                                desc: " 🔽",
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </Box>
+                            {header.column.getCanFilter() ? (
+                              <Filter column={header.column} table={table} />
+                            ) : null}
+                          </Box>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHead>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => {
                 return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <>
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? "cursor-pointer select-none"
-                              : "",
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id}>
                           {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
                           )}
-                          {{
-                            asc: " 🔼",
-                            desc: " 🔽",
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                        {header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={header.column} table={table} />
-                          </div>
-                        ) : null}
-                      </>
-                    )}
-                  </th>
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
                 );
               })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
-          {"<<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {">>"}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
-    </div>
+          <Box sx={{ flexGrow: 1 }}>
+            <Select
+              value={table.getState().pagination.pageSize}
+              onChange={(e) => {
+                table.setPageSize(Number(e.target.value));
+              }}
+              size={"small"}
+            >
+              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+                <MenuItem key={pageSize} value={pageSize}>
+                  Show {pageSize} items per page
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+          <Box
+            component={"span"}
+            sx={{ display: "flex", flexDirection: "row", gap: 1 }}
+          >
+            <Typography sx={{ userSelect: "none" }}>
+              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getPageCount()}
+            </Typography>
+          </Box>
+          <Box>
+            <Button
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </Button>
+            <Button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<"}
+            </Button>
+            <Button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {">"}
+            </Button>
+            <Button
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Paper>
   );
 }
 
@@ -214,7 +248,7 @@ function Filter({
   table,
 }: {
   column: Column<any, unknown>;
-  table: Table<any>;
+  table: TanStackTable<any>;
 }) {
   const firstValue = table
     .getPreFilteredRowModel()
@@ -231,8 +265,8 @@ function Filter({
   );
 
   return typeof firstValue === "number" ? (
-    <div>
-      <div className="flex space-x-2">
+    <Box>
+      <Box>
         <DebouncedInput
           type="number"
           min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
@@ -246,7 +280,6 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[0]})`
               : ""
           }`}
-          className="w-24 border shadow rounded"
         />
         <DebouncedInput
           type="number"
@@ -261,13 +294,11 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[1]})`
               : ""
           }`}
-          className="w-24 border shadow rounded"
         />
-      </div>
-      <div className="h-1" />
-    </div>
+      </Box>
+    </Box>
   ) : (
-    <>
+    <Box>
       <datalist id={column.id + "list"}>
         {sortedUniqueValues.slice(0, 5000).map((value: any) => (
           <option value={value} key={value} />
@@ -278,11 +309,9 @@ function Filter({
         value={(columnFilterValue ?? "") as string}
         onChange={(value) => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 border shadow rounded"
         list={column.id + "list"}
       />
-      <div className="h-1" />
-    </>
+    </Box>
   );
 }
 
@@ -312,10 +341,12 @@ function DebouncedInput({
   }, [value]);
 
   return (
-    <input
+    <TextField
       {...props}
+      size={"small"}
       value={value}
       onChange={(e) => setValue(e.target.value)}
+      color={"primary"}
     />
   );
 }

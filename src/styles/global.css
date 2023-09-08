@@ -12,3 +12,20 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
+
+article {
+    flex-grow: 1;
+}
+
+section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+

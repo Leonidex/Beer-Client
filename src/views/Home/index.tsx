@@ -36,7 +36,11 @@ const Home = () => {
               <Box className={styles.listHeader}>
                 <Typography
                   variant={"h5"}
-                  sx={{ fontWeight: 600, letterSpacing: 1.5 }}
+                  sx={{
+                    fontWeight: 600,
+                    letterSpacing: 1.5,
+                    userSelect: "none",
+                  }}
                   color="primary"
                 >
                   A random list of beer breweries:
@@ -59,9 +63,16 @@ const Home = () => {
             square
             sx={{ flex: "0 0 40%", overflowX: "hidden", overflowY: "auto" }}
           >
-            <div className={styles.listContainer}>
-              <div className={styles.listHeader}>
-                <h3>Saved items</h3>
+            <Box className={styles.listContainer}>
+              <Box className={styles.listHeader}>
+                <Typography
+                  variant={"h5"}
+                  sx={{ fontWeight: 600, letterSpacing: 1.5 }}
+                  color="primary"
+                >
+                  Saved items:
+                </Typography>
+
                 <Button
                   variant="contained"
                   onClick={removeAllFavorites}
@@ -70,9 +81,10 @@ const Home = () => {
                 >
                   Remove all items
                 </Button>
-              </div>
+              </Box>
+              <Divider />
               <FavoriteItemsGrid items={favorites} />
-            </div>
+            </Box>
           </Paper>
         </main>
       </section>

@@ -12,10 +12,11 @@ const BeerList = () => {
   return (
     <article>
       <section>
-        <header>
-          <h1>BeerList page</h1>
-        </header>
-        <main>
+        <main
+          style={{
+            justifyContent: "space-between",
+          }}
+        >
           <ItemList items={beerList} />
         </main>
       </section>
