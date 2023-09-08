@@ -6,7 +6,7 @@ import {
 } from "../../store/favoritesStore";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import React from "react";
 
 interface Props {

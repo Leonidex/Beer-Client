@@ -54,7 +54,7 @@ export default function ResponsiveTopBar() {
     <AppBar
       position="static"
       sx={{
-        borderBottom: (theme) => `solid gray 1px`,
+        borderBottom: `solid gray 1px`,
       }}
     >
       <Container maxWidth="xl">
