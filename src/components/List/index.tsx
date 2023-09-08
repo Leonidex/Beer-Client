@@ -35,6 +35,7 @@ import {
   Typography,
 } from "@mui/material";
 import styles from "../../views/Home/Home.module.css";
+import { useNavigate } from "react-router-dom";
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -56,6 +57,8 @@ interface Props {
 export default function ItemList(props: Props) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+
+  const navigate = useNavigate();
 
   const table = useReactTable({
     data: props.items as Beer[],
@@ -167,7 +170,17 @@ export default function ItemList(props: Props) {
             <TableBody>
               {table.getRowModel().rows.map((row) => {
                 return (
-                  <TableRow key={row.id}>
+                  <TableRow
+                    key={row.id}
+                    sx={{
+                      "&:hover": {
+                        boxShadow:
+                          "inset 0 0 100px 100px rgba(255, 255, 255, 0.1)",
+                      },
+                      cursor: "pointer",
+                    }}
+                    onClick={() => navigate(`/beer/${row.original.id}`)}
+                  >
                     {row.getVisibleCells().map((cell) => {
                       return (
                         <TableCell key={cell.id}>

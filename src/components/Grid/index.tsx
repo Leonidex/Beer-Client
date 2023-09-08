@@ -2,22 +2,13 @@ import React from "react";
 import { Button, Grid, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { Beer } from "../../types";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { useAtomValue, useSetAtom } from "jotai";
-import {
-  favoritesAtom,
-  toggleFavoriteItemAtom,
-} from "../../store/favoritesStore";
+import FavoriteStarButton from "../FavoriteStar";
 
 interface Props {
   items?: Beer[];
 }
 
 export default function FavoriteItemsGrid(props: Props) {
-  const favorites = useAtomValue(favoritesAtom);
-  const toggleFavoriteItem = useSetAtom(toggleFavoriteItemAtom);
-
   return (
     <Grid
       container
@@ -65,9 +56,7 @@ export default function FavoriteItemsGrid(props: Props) {
               {beer.name}
             </Button>
           </Link>
-          <Button variant={"text"} onClick={() => toggleFavoriteItem(beer)}>
-            {favorites.includes(beer) ? <StarIcon /> : <StarBorderIcon />}
-          </Button>
+          <FavoriteStarButton item={beer} />
         </Grid>
       ))}
     </Grid>
