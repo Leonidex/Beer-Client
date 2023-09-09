@@ -168,15 +168,19 @@ export default function ItemList(props: Props) {
               ))}
             </TableHead>
             <TableBody>
-              {table.getRowModel().rows.map((row) => {
+              {table.getRowModel().rows.map((row, index) => {
+                console.log(index);
                 return (
                   <TableRow
                     key={row.id}
                     sx={{
                       "&:hover": {
                         boxShadow:
-                          "inset 0 0 100px 100px rgba(255, 255, 255, 0.1)",
+                          "inset 0 0 100px 100px rgba(255, 255, 255, 0.12)",
                       },
+                      boxShadow: `inset 0 0 100px 100px rgba(255, 255, 255, ${
+                        index % 2 === 0 ? "0" : "0.03"
+                      })`,
                       cursor: "pointer",
                     }}
                     onClick={() => navigate(`/beer/${row.original.id}`)}
