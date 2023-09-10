@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Grid, Link } from "@mui/material";
+import { Button, Grid, Link, Tooltip } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { Beer } from "../../types";
 import FavoriteStarButton from "../FavoriteStar";
+import { BreweryLogos } from "../BreweryLogo";
 
 interface Props {
   items?: Beer[];
@@ -40,21 +41,26 @@ export default function FavoriteItemsGrid(props: Props) {
             }}
             variant={"button"}
           >
-            <Button
-              sx={{
-                width: "100%",
-                textTransform: "none",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textAlign: "left",
-                display: "block",
-              }}
-              variant={"outlined"}
-              color={"secondary"}
-            >
-              {beer.name}
-            </Button>
+            <Tooltip title={beer.name} enterDelay={1000} disableInteractive>
+              <Button
+                sx={{
+                  width: "100%",
+                  textTransform: "none",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textAlign: "left",
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  gap: 1,
+                }}
+                variant={"outlined"}
+                color={"secondary"}
+                startIcon={BreweryLogos.get(beer.brewery_type)}
+              >
+                {beer.name}
+              </Button>
+            </Tooltip>
           </Link>
           <FavoriteStarButton item={beer} />
         </Grid>

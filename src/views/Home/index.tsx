@@ -1,7 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchData } from "./utils";
 import { Beer } from "../../types";
-import { Button, Paper, Box, Typography, Divider } from "@mui/material";
+import {
+  Button,
+  Paper,
+  Box,
+  Typography,
+  Divider,
+  Skeleton,
+  Fade,
+  Stack,
+} from "@mui/material";
 import styles from "./Home.module.css";
 import {
   favoritesAtom,
@@ -28,64 +37,81 @@ const Home = () => {
             justifyContent: "space-between",
           }}
         >
-          <Paper square sx={{ flexGrow: 1 }}>
-            <Box
-              className={styles.listContainer}
-              sx={{ flex: "0 0 60%", overflowX: "hidden", overflowY: "auto" }}
-            >
-              <Box className={styles.listHeader}>
-                <Typography
-                  variant={"h5"}
+          <Fade in={!!beerList}>
+            <Stack direction={"column"} sx={{ height: "100%" }}>
+              <Paper square sx={{ flexGrow: 1 }}>
+                <Box
+                  className={styles.listContainer}
                   sx={{
-                    fontWeight: 600,
-                    letterSpacing: 1.5,
-                    userSelect: "none",
+                    // flex: "0 0 60%",
+                    overflowX: "hidden",
+                    // overflowY: "auto",
+                    height: "100%",
                   }}
-                  color="primary"
                 >
-                  A random list of beer breweries:
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={handleReloadList}
-                  size="small"
-                >
-                  Reload list
-                </Button>
-              </Box>
-              <Divider />
-              <FavoriteItemsGrid items={beerList} />
-            </Box>
-          </Paper>
+                  <Box className={styles.listHeader}>
+                    <Typography
+                      variant={"h5"}
+                      sx={{
+                        fontWeight: 600,
+                        letterSpacing: 1.5,
+                        userSelect: "none",
+                      }}
+                      color="primary"
+                    >
+                      A random list of beer breweries:
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      onClick={handleReloadList}
+                      size="small"
+                    >
+                      Reload list
+                    </Button>
+                  </Box>
+                  <Divider />
+                  {beerList?.length ? (
+                    <FavoriteItemsGrid items={beerList} />
+                  ) : (
+                    <Skeleton
+                      variant={"rounded"}
+                      width={"100%"}
+                      height={"100%"}
+                    />
+                  )}
+                </Box>
+              </Paper>
 
-          <Divider />
-          <Paper
-            square
-            sx={{ flex: "0 0 40%", overflowX: "hidden", overflowY: "auto" }}
-          >
-            <Box className={styles.listContainer}>
-              <Box className={styles.listHeader}>
-                <Typography
-                  variant={"h5"}
-                  sx={{ fontWeight: 600, letterSpacing: 1.5 }}
-                  color="primary"
-                >
-                  Saved items:
-                </Typography>
-
-                <Button
-                  variant="contained"
-                  onClick={removeAllFavorites}
-                  size="small"
-                  disabled={!favorites?.length}
-                >
-                  Remove all items
-                </Button>
-              </Box>
               <Divider />
-              <FavoriteItemsGrid items={favorites} />
-            </Box>
-          </Paper>
+              <Paper
+                square
+                sx={{ flex: "0 0 40%", overflowX: "hidden", overflowY: "auto" }}
+              >
+                <Box className={styles.listContainer}>
+                  <Box className={styles.listHeader}>
+                    <Typography
+                      variant={"h5"}
+                      sx={{ fontWeight: 600, letterSpacing: 1.5 }}
+                      color="primary"
+                    >
+                      Saved items:
+                    </Typography>
+
+                    <Button
+                      variant="contained"
+                      onClick={removeAllFavorites}
+                      size="small"
+                      disabled={!favorites?.length}
+                    >
+                      Remove all items
+                    </Button>
+                  </Box>
+                  <Divider />
+                  <FavoriteItemsGrid items={favorites} />
+                </Box>
+              </Paper>
+            </Stack>
+          </Fade>
         </main>
       </section>
     </article>

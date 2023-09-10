@@ -4,6 +4,7 @@ const primaryMain = "#EEF4ED";
 const secondaryMain = "#C1BFB8";
 const backgroundDefault = "#272829";
 const backgroundPaper = "#131415";
+const infoMain = "#2e353d";
 
 const theme = createTheme({
   palette: {
@@ -21,6 +22,9 @@ const theme = createTheme({
     background: {
       default: backgroundDefault,
       paper: backgroundPaper,
+    },
+    info: {
+      main: infoMain,
     },
   },
   components: {

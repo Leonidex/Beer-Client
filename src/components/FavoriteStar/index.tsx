@@ -25,8 +25,8 @@ export default function FavoriteStarButton(props: Props) {
         e.stopPropagation();
       }}
     >
-      {favorites.some((item) => item.id === props.item.id) ? (
-        <StarIcon />
+      {favorites.some((item) => item?.id === props.item?.id) ? (
+        <StarIcon color={"warning"} />
       ) : (
         <StarBorderIcon />
       )}
