@@ -24,7 +24,7 @@ const Offline = () => {
     };
   }, []);
 
-  return !isOnline ? null : (
+  return isOnline ? null : (
     <Paper square>
       <Tooltip title={"Please check your internet connection"}>
         <Box display="flex" flexDirection={"column"} width={"100%"}>
