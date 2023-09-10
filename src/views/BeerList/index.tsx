@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Beer } from "../../types";
 import { fetchData } from "./utils";
 import ItemList from "../../components/List";
+import { Box, Fade, Paper } from "@mui/material";
 
 const BeerList = () => {
   const [beerList, setBeerList] = useState<Array<Beer>>([]);
@@ -17,7 +18,11 @@ const BeerList = () => {
             justifyContent: "space-between",
           }}
         >
-          <ItemList items={beerList} />
+          <Fade in={!!beerList}>
+            <Paper square sx={{ flexGrow: 1 }}>
+              <ItemList items={beerList} />
+            </Paper>
+          </Fade>
         </main>
       </section>
     </article>

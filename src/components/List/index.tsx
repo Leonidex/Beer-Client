@@ -15,7 +15,12 @@ import {
 } from "@tanstack/react-table";
 
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { InputHTMLAttributes, useEffect, useMemo, useState } from "react";
+import React, {
+  InputHTMLAttributes,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { columns } from "./columns";
 import { Beer } from "../../types";
 import {
@@ -23,8 +28,8 @@ import {
   Button,
   Divider,
   MenuItem,
-  Paper,
   Select,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -93,170 +98,177 @@ export default function ItemList(props: Props) {
     }
   }, [table.getState().columnFilters[0]?.id]);
 
-  return (
-    <Paper square sx={{ flexGrow: 1 }}>
-      <Box
-        className={styles.listContainer}
-        sx={{ flex: "0 0 100%", overflowX: "hidden", overflowY: "auto" }}
-      >
-        <Box className={styles.listHeader}>
-          <Typography
-            variant={"h5"}
-            sx={{ fontWeight: 600, letterSpacing: 1.5, userSelect: "none" }}
-            color="primary"
-          >
-            List of beer breweries:
-          </Typography>
-        </Box>
-        <Divider />
-        <Box>
-          <DebouncedInput
-            value={globalFilter ?? ""}
-            onChange={(value) => setGlobalFilter(String(value))}
-            placeholder="Search all columns..."
-          />
-        </Box>
-        <TableContainer sx={{ overflow: "auto" }}>
-          <Table>
-            <TableHead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableCell key={header.id} colSpan={header.colSpan}>
-                        {header.isPlaceholder ? null : (
+  return props.items?.length ? (
+    <Box className={styles.listContainer}>
+      <Box className={styles.listHeader}>
+        <Typography
+          variant={"h5"}
+          sx={{ fontWeight: 600, letterSpacing: 1.5, userSelect: "none" }}
+          color="primary"
+        >
+          List of beer breweries:
+        </Typography>
+      </Box>
+      <Divider />
+      <Box>
+        <DebouncedInput
+          value={globalFilter ?? ""}
+          onChange={(value) => setGlobalFilter(String(value))}
+          placeholder="Search all columns..."
+        />
+      </Box>
+      <TableContainer sx={{ overflow: "auto" }}>
+        <Table>
+          <TableHead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableCell key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder ? null : (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            overflow: "hidden",
+                            gap: 3,
+                            alignItems: "center",
+                          }}
+                        >
                           <Box
                             sx={{
-                              display: "flex",
-                              flexDirection: "row",
-                              overflow: "hidden",
-                              gap: 3,
-                              alignItems: "center",
+                              flexGrow: 1,
+                              userSelect: "none",
+                              cursor: header.column.getCanSort()
+                                ? "pointer"
+                                : "default",
+                            }}
+                            {...{
+                              onClick: header.column.getToggleSortingHandler(),
                             }}
                           >
-                            <Box
-                              sx={{
-                                flexGrow: 1,
-                                userSelect: "none",
-                                cursor: header.column.getCanSort()
-                                  ? "pointer"
-                                  : "default",
-                              }}
-                              {...{
-                                onClick:
-                                  header.column.getToggleSortingHandler(),
-                              }}
-                            >
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
-                              {{
-                                asc: " 🔼",
-                                desc: " 🔽",
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </Box>
-                            {header.column.getCanFilter() ? (
-                              <Filter column={header.column} table={table} />
-                            ) : null}
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                            {{
+                              asc: " 🔼",
+                              desc: " 🔽",
+                            }[header.column.getIsSorted() as string] ?? null}
                           </Box>
+                          {header.column.getCanFilter() ? (
+                            <Filter column={header.column} table={table} />
+                          ) : null}
+                        </Box>
+                      )}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody>
+            {table.getRowModel().rows.map((row, index) => {
+              console.log(index);
+              return (
+                <TableRow
+                  key={row.id}
+                  sx={{
+                    "&:hover": {
+                      boxShadow:
+                        "inset 0 0 100px 100px rgba(255, 255, 255, 0.12)",
+                    },
+                    boxShadow: `inset 0 0 100px 100px rgba(255, 255, 255, ${
+                      index % 2 === 0 ? "0" : "0.03"
+                    })`,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate(`/beer/${row.original.id}`)}
+                >
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
                         )}
                       </TableCell>
                     );
                   })}
                 </TableRow>
-              ))}
-            </TableHead>
-            <TableBody>
-              {table.getRowModel().rows.map((row, index) => {
-                console.log(index);
-                return (
-                  <TableRow
-                    key={row.id}
-                    sx={{
-                      "&:hover": {
-                        boxShadow:
-                          "inset 0 0 100px 100px rgba(255, 255, 255, 0.12)",
-                      },
-                      boxShadow: `inset 0 0 100px 100px rgba(255, 255, 255, ${
-                        index % 2 === 0 ? "0" : "0.03"
-                      })`,
-                      cursor: "pointer",
-                    }}
-                    onClick={() => navigate(`/beer/${row.original.id}`)}
-                  >
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Box
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-        >
-          <Box sx={{ flexGrow: 1 }}>
-            <Select
-              value={table.getState().pagination.pageSize}
-              onChange={(e) => {
-                table.setPageSize(Number(e.target.value));
-              }}
-              size={"small"}
-            >
-              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                <MenuItem key={pageSize} value={pageSize}>
-                  Show {pageSize} items per page
-                </MenuItem>
-              ))}
-            </Select>
-          </Box>
-          <Box
-            component={"span"}
-            sx={{ display: "flex", flexDirection: "row", gap: 1 }}
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Select
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+            size={"small"}
           >
-            <Typography sx={{ userSelect: "none" }}>
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </Typography>
-          </Box>
-          <Box>
-            <Button
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {"<<"}
-            </Button>
-            <Button
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {"<"}
-            </Button>
-            <Button
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              {">"}
-            </Button>
-            <Button
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              {">>"}
-            </Button>
-          </Box>
+            {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+              <MenuItem key={pageSize} value={pageSize}>
+                Show {pageSize} items per page
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+        <Box
+          component={"span"}
+          sx={{ display: "flex", flexDirection: "row", gap: 1 }}
+        >
+          <Typography sx={{ userSelect: "none" }}>
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </Typography>
+        </Box>
+        <Box>
+          <Button
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {"<<"}
+          </Button>
+          <Button
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {"<"}
+          </Button>
+          <Button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            {">"}
+          </Button>
+          <Button
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            {">>"}
+          </Button>
         </Box>
       </Box>
-    </Paper>
+    </Box>
+  ) : (
+    <Box className={styles.listContainer} height={"100%"}>
+      <Box className={styles.listHeader}>
+        <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
+      </Box>
+      <Divider />
+      <Box height={"100%"}>
+        <Skeleton
+          variant={"rounded"}
+          sx={{ flexGrow: 1 }}
+          height={"100%"}
+          width={"100%"}
+        />
+      </Box>
+    </Box>
   );
 }
 

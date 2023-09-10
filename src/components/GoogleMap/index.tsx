@@ -4,40 +4,64 @@ import {
   Marker,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Box, Link, Stack, Typography } from "@mui/material";
 import { Beer } from "../../types";
 import RoomIcon from "@mui/icons-material/Room";
 import PhoneIcon from "@mui/icons-material/Phone";
+import { getGeocodingCoordinates } from "../../api";
+import { getAddress } from "../../utils";
 
 interface Props {
-  center: {
-    lat: number;
-    lng: number;
-  };
   item: Beer;
 }
+
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+const getCoordinates = (item: Beer, setCenter: (center: any) => void) => {
+  (async () => {
+    if (item?.longitude && item?.latitude) {
+      setCenter({
+        lat: parseFloat(item.latitude),
+        lng: parseFloat(item.longitude),
+      });
+    } else {
+      const address = getAddress(item);
+      const res = await getGeocodingCoordinates(address as string);
+      setCenter(res?.data?.results?.[0]?.geometry?.location);
+    }
+  })();
+};
 
 function GoogleMapComponent(props: Props) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
   });
-  const [selected, setSelected] = useState<Props["center"] | null>(
-    props.center,
-  );
+
+  const [center, setCenter] = useState<Coordinates>();
+
+  useEffect(() => {
+    if (isLoaded) {
+      getCoordinates(props.item, setCenter);
+    }
+  }, [props.item, isLoaded]);
+
+  const [selected, setSelected] = useState<Coordinates | null>();
 
   return isLoaded ? (
     <Box sx={{ height: "100%", padding: 2 }}>
       <GoogleMap
         mapContainerStyle={{ height: "100%" }}
-        center={props.center}
+        center={center}
         zoom={10}
       >
-        <Marker
-          position={props.center}
-          onClick={() => setSelected(props.center)}
-        />
+        {!!center && (
+          <Marker position={center} onClick={() => setSelected(center)} />
+        )}
         {selected && (
           <InfoWindow
             position={selected}
@@ -56,9 +80,7 @@ function GoogleMapComponent(props: Props) {
               >
                 <RoomIcon color={"info"} />
                 &nbsp;
-                {props.item?.address_1 ||
-                  props.item?.address_2 ||
-                  props.item?.address_3}
+                {getAddress(props.item)}
               </Typography>
               <Link
                 href={`tel:${props.item?.phone}`}

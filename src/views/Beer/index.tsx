@@ -18,6 +18,7 @@ import {
 import styles from "./Beer.module.css";
 import { BreweryLogos } from "../../components/BreweryLogo";
 import GoogleMapComponent from "../../components/GoogleMap";
+import { getAddress } from "../../utils";
 
 const Beer = () => {
   const { id } = useParams();
@@ -30,10 +31,10 @@ const Beer = () => {
     <article>
       <section>
         <main>
-          <Paper square sx={{ flexGrow: 1 }}>
-            <Box className={styles.container}>
-              {beer ? (
-                <Fade in={!!beer}>
+          {beer ? (
+            <Fade in={!!beer}>
+              <Paper square sx={{ flexGrow: 1 }}>
+                <Box className={styles.container}>
                   <Box className={styles.header}>
                     {BreweryLogos.get(beer?.brewery_type as string)}
                     <Tooltip
@@ -56,15 +57,7 @@ const Beer = () => {
                     </Tooltip>
                     <FavoriteStarButton item={beer as IBeer} />
                   </Box>
-                </Fade>
-              ) : (
-                <Box className={styles.header}>
-                  <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
-                </Box>
-              )}
-              <Divider />
-              {beer ? (
-                <Fade in={!!beer}>
+                  <Divider />
                   <Stack
                     direction={"column"}
                     spacing={2}
@@ -85,11 +78,7 @@ const Beer = () => {
                           <Typography>Address:</Typography>
                         </Grid>
                         <Grid item xs={1}>
-                          <Typography>
-                            {beer?.address_1 ||
-                              beer?.address_2 ||
-                              beer?.address_3}
-                          </Typography>
+                          <Typography>{getAddress(beer)}</Typography>
                         </Grid>
                         <Grid item xs={1}>
                           <Typography>City:</Typography>
@@ -149,19 +138,18 @@ const Beer = () => {
                         flex: "1",
                       }}
                     >
-                      {beer?.latitude && beer?.longitude && (
-                        <GoogleMapComponent
-                          center={{
-                            lat: parseInt(beer?.latitude as string),
-                            lng: parseInt(beer?.longitude as string),
-                          }}
-                          item={beer as IBeer}
-                        />
-                      )}
+                      <GoogleMapComponent item={beer as IBeer} />
                     </Box>
                   </Stack>
-                </Fade>
-              ) : (
+                </Box>
+              </Paper>
+            </Fade>
+          ) : (
+            <Paper square sx={{ flexGrow: 1 }}>
+              <Box className={styles.container}>
+                <Box className={styles.header}>
+                  <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
+                </Box>
                 <Stack
                   direction={"column"}
                   spacing={2}
@@ -181,9 +169,9 @@ const Beer = () => {
                     sx={{ width: "100%", height: "100%", flexGrow: 1 }}
                   />
                 </Stack>
-              )}
-            </Box>
-          </Paper>
+              </Box>
+            </Paper>
+          )}
         </main>
       </section>
     </article>
