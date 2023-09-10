@@ -37,6 +37,9 @@ const getCoordinates = (item: Beer, setCenter: (center: any) => void) => {
 };
 
 function GoogleMapComponent(props: Props) {
+  const getGoogleMapsUrl = (center: Coordinates) =>
+    `https://www.google.com/maps/?q=${center.lat},${center.lng}`;
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
@@ -97,6 +100,21 @@ function GoogleMapComponent(props: Props) {
                   <PhoneIcon color={"info"} />
                   &nbsp;
                   {props.item?.phone}
+                </Typography>
+              </Link>
+              <Link
+                href={getGoogleMapsUrl(center as Coordinates)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Typography
+                  color={"blue"}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  Open in Google Maps
                 </Typography>
               </Link>
             </Stack>
