@@ -10,10 +10,12 @@ import {
   Link,
   Paper,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import styles from "./Beer.module.css";
 import { BreweryLogos } from "../../components/BreweryLogo";
+import GoogleMapComponent from "../../components/GoogleMap";
 
 const Beer = () => {
   const { id } = useParams();
@@ -27,28 +29,37 @@ const Beer = () => {
       <section>
         <main>
           <Paper square sx={{ flexGrow: 1 }}>
-            <Box
-              className={styles.container}
-              sx={{ flex: "0 0 100%", overflowX: "hidden", overflowY: "auto" }}
-            >
+            <Box className={styles.container}>
               <Box className={styles.header}>
-                {beer && BreweryLogos.get(beer?.brewery_type)}
-                <Typography
-                  variant={"h5"}
-                  sx={{
-                    fontWeight: 600,
-                    letterSpacing: 1.5,
-                    userSelect: "none",
-                  }}
-                  color="primary"
+                {beer && BreweryLogos.get(beer?.brewery_type as string)}
+                <Tooltip
+                  title={beer?.name}
+                  enterDelay={1000}
+                  disableInteractive
                 >
-                  &nbsp;{beer?.name}
-                </Typography>
+                  <Typography
+                    variant={"h5"}
+                    sx={{
+                      fontWeight: 600,
+                      letterSpacing: 1.5,
+                      userSelect: "none",
+                    }}
+                    color="primary"
+                    noWrap
+                  >
+                    &nbsp;{beer?.name}
+                  </Typography>
+                </Tooltip>
                 <FavoriteStarButton item={beer as IBeer} />
               </Box>
               <Divider />
-              <Stack direction={"column"}>
-                <Grid container columns={4} xs={12} md={3} lg={2}>
+              <Stack
+                direction={"column"}
+                spacing={2}
+                sx={{ flexGrow: 1 }}
+                height={"100%"}
+              >
+                <Box width={{ xs: "100%", sm: "75%", md: "50%", lg: "33%" }}>
                   <Grid container item columns={2} spacing={1}>
                     <Grid item xs={1}>
                       <Typography>Type:</Typography>
@@ -100,9 +111,38 @@ const Beer = () => {
                         <Typography>{beer?.phone}</Typography>
                       </Link>
                     </Grid>
+                    <Grid item xs={1}>
+                      <Typography>Website:</Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Link
+                        href={`tel:${beer?.website_url}`}
+                        underline="hover"
+                        color="secondary"
+                      >
+                        <Typography>{beer?.website_url}</Typography>
+                      </Link>
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Box>google maps</Box>
+                </Box>
+                <Divider />
+                <Box
+                  sx={{
+                    height: "100%",
+                    flexGrow: 1,
+                    flex: "1",
+                  }}
+                >
+                  {beer?.latitude && beer?.longitude && (
+                    <GoogleMapComponent
+                      center={{
+                        lat: parseInt(beer?.latitude as string),
+                        lng: parseInt(beer?.longitude as string),
+                      }}
+                      item={beer}
+                    />
+                  )}
+                </Box>
               </Stack>
             </Box>
           </Paper>
