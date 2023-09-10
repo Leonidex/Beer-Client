@@ -6,10 +6,12 @@ import Beer from "../views/Beer";
 import Footer from "../components/Footer";
 import TopBar from "../components/TopBar";
 import Intro from "../views/Intro";
+import Offline from "../views/Offline";
 
 const Router = () => (
   <BrowserRouter>
     <Intro />
+    <Offline />
     <TopBar />
     <Routes>
       <Route index element={<Home />} />
