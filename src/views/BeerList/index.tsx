@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Beer } from "../../types";
 import { fetchData } from "./utils";
 import ItemList from "../../components/List";
-import { Box, Fade, Paper } from "@mui/material";
+import { Fade, Paper } from "@mui/material";
 
 const BeerList = () => {
   const [beerList, setBeerList] = useState<Array<Beer>>([]);
