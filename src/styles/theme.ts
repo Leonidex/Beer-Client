@@ -35,6 +35,20 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          background: "none",
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          background: backgroundPaper,
+        },
+      },
+    },
   },
 });
 

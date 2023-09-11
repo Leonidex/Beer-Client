@@ -6,7 +6,6 @@ const Footer = () => {
     <Box
       className={styles.container}
       sx={{
-        backgroundColor: (theme) => theme.palette.background.default,
         color: (theme) => theme.palette.text.primary,
         borderTop: `solid gray 1px`,
       }}
