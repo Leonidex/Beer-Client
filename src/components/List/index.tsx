@@ -182,6 +182,7 @@ export default function ItemList(props: Props) {
                       index % 2 === 0 ? "0" : "0.03"
                     })`,
                     cursor: "pointer",
+                    backgroundColor: "rgba(0,0,0,0.4)",
                   }}
                   onClick={() => navigate(`/beer/${row.original.id}`)}
                 >

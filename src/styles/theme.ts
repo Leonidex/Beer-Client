@@ -49,6 +49,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backdropFilter: "blur(120px)",
+          filter: "brightness(120%)",
+        },
+      },
+    },
   },
 });
 

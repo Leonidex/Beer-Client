@@ -64,72 +64,74 @@ const Beer = () => {
                     sx={{ flexGrow: 1 }}
                     height={"100%"}
                   >
-                    <Box
-                      width={{ xs: "100%", sm: "75%", md: "50%", lg: "33%" }}
-                    >
-                      <Grid container item columns={2} spacing={1}>
-                        <Grid item xs={1}>
-                          <Typography>Type:</Typography>
+                    <Paper square sx={{ padding: 2 }}>
+                      <Box
+                        width={{ xs: "100%", sm: "75%", md: "50%", lg: "33%" }}
+                      >
+                        <Grid container item columns={2} spacing={1}>
+                          <Grid item xs={1}>
+                            <Typography>Type:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>{beer?.brewery_type}</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>Address:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>{getAddress(beer)}</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>City:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>{beer?.city}</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>State:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>{beer?.state}</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>Postal Code:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>{beer?.postal_code}</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>Country:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>{beer?.country}</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>Phone:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Link
+                              href={`tel:${beer?.phone}`}
+                              underline="hover"
+                              color="secondary"
+                            >
+                              <Typography>{beer?.phone}</Typography>
+                            </Link>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Typography>Website:</Typography>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <Link
+                              href={`tel:${beer?.website_url}`}
+                              underline="hover"
+                              color="secondary"
+                            >
+                              <Typography>{beer?.website_url}</Typography>
+                            </Link>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={1}>
-                          <Typography>{beer?.brewery_type}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>Address:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>{getAddress(beer)}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>City:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>{beer?.city}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>State:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>{beer?.state}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>Postal Code:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>{beer?.postal_code}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>Country:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>{beer?.country}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>Phone:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Link
-                            href={`tel:${beer?.phone}`}
-                            underline="hover"
-                            color="secondary"
-                          >
-                            <Typography>{beer?.phone}</Typography>
-                          </Link>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography>Website:</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Link
-                            href={`tel:${beer?.website_url}`}
-                            underline="hover"
-                            color="secondary"
-                          >
-                            <Typography>{beer?.website_url}</Typography>
-                          </Link>
-                        </Grid>
-                      </Grid>
-                    </Box>
+                      </Box>
+                    </Paper>
                     <Divider />
                     <Box
                       sx={{
