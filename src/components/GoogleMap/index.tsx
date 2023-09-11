@@ -5,7 +5,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import { memo, useEffect, useState } from "react";
-import { Box, Link, Stack, Typography } from "@mui/material";
+import { Link, Paper, Stack, Typography } from "@mui/material";
 import { Beer } from "../../types";
 import RoomIcon from "@mui/icons-material/Room";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -56,7 +56,7 @@ function GoogleMapComponent(props: Props) {
   const [selected, setSelected] = useState<Coordinates | null>();
 
   return isLoaded ? (
-    <Box sx={{ height: "100%", padding: 2 }}>
+    <Paper sx={{ height: "100%", padding: 0.1 }}>
       <GoogleMap
         mapContainerStyle={{ height: "100%" }}
         center={center}
@@ -121,7 +121,7 @@ function GoogleMapComponent(props: Props) {
           </InfoWindow>
         )}
       </GoogleMap>
-    </Box>
+    </Paper>
   ) : (
     <></>
   );

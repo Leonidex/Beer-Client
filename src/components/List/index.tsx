@@ -220,14 +220,18 @@ export default function ItemList(props: Props) {
         </Box>
         <Box
           component={"span"}
-          sx={{ display: "flex", flexDirection: "row", gap: 1 }}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 1,
+          }}
         >
           <Typography sx={{ userSelect: "none" }}>
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </Typography>
         </Box>
-        <Box>
+        <Box sx={{ padding: 1 }}>
           <Button
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
