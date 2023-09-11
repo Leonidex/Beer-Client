@@ -2,6 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { Beer } from "../../types";
 import FavoriteStarButton from "../FavoriteStar";
 import { BreweryLogos } from "../BreweryLogo";
+import { Box } from "@mui/material";
 
 const columnHelper = createColumnHelper<Beer>();
 
@@ -16,7 +17,11 @@ export const columns = [
   columnHelper.display({
     id: "logo",
     cell: (info) => {
-      return BreweryLogos.get(info.row.original.brewery_type);
+      return (
+        <Box display={"flex"} alignItems={"center"}>
+          {BreweryLogos.get(info.row.original.brewery_type)}
+        </Box>
+      );
     },
     header: () => <span></span>,
   }),
