@@ -18,7 +18,7 @@ export default function FavoriteStarButton(props: Props) {
 
   return (
     <Button
-      variant={"text"}
+      variant={"outlined"}
       onClick={(e) => {
         toggleFavoriteItem(props.item);
         e.preventDefault();

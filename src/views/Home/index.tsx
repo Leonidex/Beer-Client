@@ -62,7 +62,7 @@ const Home = () => {
                       A random list of beer breweries:
                     </Typography>
                     <Button
-                      variant="contained"
+                      variant={"outlined"}
                       onClick={handleReloadList}
                       size="small"
                     >
@@ -98,7 +98,7 @@ const Home = () => {
                     </Typography>
 
                     <Button
-                      variant="contained"
+                      variant={"outlined"}
                       onClick={removeAllFavorites}
                       size="small"
                       disabled={!favorites?.length}

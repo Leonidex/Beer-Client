@@ -258,7 +258,13 @@ export default function ItemList(props: Props) {
   ) : (
     <Box className={styles.listContainer} height={"100%"}>
       <Box className={styles.listHeader}>
-        <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
+        <Typography
+          variant={"h5"}
+          sx={{ width: "100%", height: "100%" }}
+          color="primary"
+        >
+          <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
+        </Typography>
       </Box>
       <Divider />
       <Box height={"100%"}>

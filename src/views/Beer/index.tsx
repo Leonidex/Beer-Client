@@ -150,7 +150,13 @@ const Beer = () => {
             <Paper square sx={{ flexGrow: 1 }}>
               <Box className={styles.container}>
                 <Box className={styles.header}>
-                  <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
+                  <Typography
+                    variant={"h5"}
+                    sx={{ width: "100%", height: "100%" }}
+                    color="primary"
+                  >
+                    <Skeleton variant={"rounded"} sx={{ width: "100%" }} />
+                  </Typography>
                 </Box>
                 <Stack
                   direction={"column"}

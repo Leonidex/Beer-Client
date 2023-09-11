@@ -52,8 +52,9 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backdropFilter: "blur(120px)",
+          backdropFilter: "blur(12px)",
           filter: "brightness(120%)",
+          backgroundColor: "rgba(0,0,0,0.2)",
         },
       },
     },
