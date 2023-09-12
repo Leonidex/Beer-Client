@@ -30,6 +30,7 @@ import {
   MenuItem,
   Select,
   Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -202,7 +203,10 @@ export default function ItemList(props: Props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+      <Stack
+        sx={{ alignItems: "center" }}
+        direction={{ sx: "column", md: "row" }}
+      >
         <Box sx={{ flexGrow: 1 }}>
           <Select
             value={table.getState().pagination.pageSize}
@@ -257,7 +261,7 @@ export default function ItemList(props: Props) {
             {">>"}
           </Button>
         </Box>
-      </Box>
+      </Stack>
     </Box>
   ) : (
     <Box className={styles.listContainer} height={"100%"}>

@@ -7,7 +7,6 @@ import {
   ListItemText,
   Toolbar,
   Link,
-  Container,
   Menu,
   Typography,
   IconButton,
@@ -57,7 +56,12 @@ export default function ResponsiveTopBar() {
         borderBottom: `solid gray 1px`,
       }}
     >
-      <Container maxWidth="xl">
+      <Box
+        sx={{
+          width: `100%`,
+          padding: 2,
+        }}
+      >
         <Toolbar disableGutters>
           <Link
             component={RouterLink}
@@ -157,7 +161,7 @@ export default function ResponsiveTopBar() {
             ))}
           </Box>
         </Toolbar>
-      </Container>
+      </Box>
     </AppBar>
   );
 }
